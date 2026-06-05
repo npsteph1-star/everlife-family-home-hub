@@ -1,0 +1,20 @@
+{
+  "short_name": "EverLife Hub",
+  "name": "EverLife Family Home Hub",
+  "icons": [
+    {
+      "src": "/public/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/public/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#8FAF9A",
+  "background_color": "#f6f4ed"
+}
