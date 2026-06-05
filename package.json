@@ -1,17 +1,19 @@
 {
-  "name": "everlife-family-home-hub",
-  "version": "0.1.0",
+  "name": "family-home-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Family Home Hub – a family operating system for chores, routines, rewards, and daily organization.",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-router-dom": "latest"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^4.3.0"
+  }
 }

@@ -1,6 +1,11 @@
 {
-  "short_name": "EverLife Hub",
-  "name": "EverLife Family Home Hub",
+  "name": "Family Home Hub",
+  "short_name": "Home Hub",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f6f4ed",
+  "theme_color": "#4f6f52",
+  "description": "A family operating system for managing chores, routines, rewards, allowances and more.",
   "icons": [
     {
       "src": "/public/icon-192.png",
@@ -12,9 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#8FAF9A",
-  "background_color": "#f6f4ed"
+  ]
 }
