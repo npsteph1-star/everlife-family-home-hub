@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/src/styles.css',
+ 
   '/public/icon-192.png',
   '/public/icon-512.png'
 ];
