@@ -2,7 +2,7 @@
   "name": "family-home-hub",
   "version": "1.0.0",
   "private": true,
-  "description": "Family Home Hub – a family operating system for chores, routines, rewards, and daily organization.",
+  "description": "Family Home Hub — a family operating system for chores, routines, rewards, and daily organization.",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@supabase/supabase-js": "^2.45.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
