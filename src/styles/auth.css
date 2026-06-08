@@ -1,0 +1,120 @@
+/* Family Home Hub — Auth page styles
+   Imported in src/App.jsx (Vite handles CSS imports automatically)
+*/
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-main, #f0f4f0);
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  background: var(--card-bg, #fff);
+  border-radius: 20px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+}
+
+.auth-logo {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.auth-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-main, #1a2e1a);
+  text-align: center;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.auth-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-light, #6b7c6b);
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-main, #f0f4f0);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-light, #6b7c6b);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.tab-btn.active {
+  background: #fff;
+  color: var(--green-dark, #2d6a2d);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Inline text buttons */
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--green-dark, #2d6a2d);
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.btn-link:hover {
+  color: var(--green-mid, #4a8a4a);
+}
+
+/* Full-width button modifier */
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Alert variants (supplement global styles) */
+.alert-danger {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  margin-bottom: 14px;
+}
+
+/* Ensure form inputs fill width inside auth card */
+.auth-card .form-input {
+  width: 100%;
+  box-sizing: border-box;
+}
