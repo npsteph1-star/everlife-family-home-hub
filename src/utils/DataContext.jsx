@@ -87,7 +87,6 @@ const defaultState = {
     petsEnabled: false,
     allowanceMode: 'both',
     toddlerMode: false,
-    // Integration toggles only — NO keys or secrets stored here
     aiProvider: 'none',
     alexaEnabled: false,
   },
@@ -95,11 +94,30 @@ const defaultState = {
 }
 
 export function DataProvider({ children, user }) {
-  const [state, setState] = useState(() => loadState(defaultState))
+  const [state, setState] = useState(() => {
+    const base = loadState(defaultState)
 
-  useEffect(() => {
-    saveState(state)
-  }, [state])
+    // Consume staged onboarding data (written by the wizard just before registration).
+    // Cleared immediately after consuming so it’s only applied once.
+    try {
+      const staged = window.localStorage.getItem('fhh_onboarding_staged')
+      if (staged) {
+        const onb = JSON.parse(staged)
+        window.localStorage.removeItem('fhh_onboarding_staged')
+        return {
+          ...base,
+          settings: { ...base.settings, ...(onb.settings ?? {}) },
+          security: { ...base.security, ...(onb.security ?? {}) },
+          members:  Array.isArray(onb.members) && onb.members.length ? onb.members : base.members,
+        }
+      }
+    } catch {
+      // Malformed staged data — ignore and use defaults
+    }
+    return base
+  })
+
+  useEffect(() => { saveState(state) }, [state])
 
   /** Append an entry to the in-memory + persisted audit log */
   const writeAudit = useCallback((action, detail, performedBy = 'system') => {
@@ -130,18 +148,15 @@ export function DataProvider({ children, user }) {
     })
   }, [])
 
-  /** Adjust a member's currency balance and record the transaction */
+  /** Adjust a member’s currency balance and record the transaction */
   const adjustBalance = useCallback((memberId, currency, amount, reason, approvedBy) => {
     setState(prev => {
       const current = prev.economy.balances[memberId] ?? { points: 0, money: 0, screenMinutes: 0, tokens: 0 }
       const newVal  = Math.max(0, (current[currency] ?? 0) + amount)
       const entry = {
-        id: genId(),
-        memberId,
+        id: genId(), memberId,
         type: amount >= 0 ? 'add' : 'subtract',
-        currency,
-        amount,
-        reason,
+        currency, amount, reason,
         createdAt: new Date().toISOString(),
         approvedBy: approvedBy ?? 'system',
       }
