@@ -1,37 +1,38 @@
-/**
- * Family Home Hub — Auth Context
- *
- * Wraps the app and provides the current Supabase user + session.
- * Updates automatically when the user signs in, signs out, or the
- * token is refreshed. All components can call useAuth() to get:
- *
- *   const { user, session, loading, isAuthenticated } = useAuth()
- */
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase.js'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { supabase, isSupabaseConfigured } from '../lib/supabase.js'
 
 const AuthContext = createContext(null)
 
 export function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>')
-  return ctx
+  return useContext(AuthContext)
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(null)
+  const [user, setUser] = useState(null)
   const [session, setSession] = useState(null)
-  const [loading, setLoading] = useState(true)
+  // If Supabase isn’t configured we skip the async check — loading starts false.
+  const [loading, setLoading] = useState(isSupabaseConfigured)
 
   useEffect(() => {
-    // Hydrate from existing session (e.g. page refresh)
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
+    if (!isSupabaseConfigured || !supabase) {
+      // Nothing to do — App.jsx will render the SetupRequired screen.
+      return
+    }
 
-    // Listen for sign-in / sign-out / token refresh events
+    // Restore any existing session from localStorage.
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setSession(session)
+        setUser(session?.user ?? null)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('[AuthContext] getSession error:', err)
+        setLoading(false)
+      })
+
+    // Listen for sign-in / sign-out / token-refresh.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -48,11 +49,8 @@ export function AuthProvider({ children }) {
     session,
     loading,
     isAuthenticated: !!user,
+    isSupabaseConfigured,
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
